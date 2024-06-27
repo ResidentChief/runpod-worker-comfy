@@ -13,7 +13,11 @@ RUN apt-get update && apt-get install -y \
     python3.10 \
     python3-pip \
     git \
-    wget
+    git-lfs \
+    wget \
+    dos2unix \
+    libgl1-mesa-glx \
+    libglib2.0-0 
 
 # Clean up to reduce image size
 RUN apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
@@ -25,15 +29,14 @@ RUN git clone https://github.com/comfyanonymous/ComfyUI.git /comfyui
 WORKDIR /comfyui
 
 ARG SKIP_DEFAULT_MODELS
-# Download checkpoints/vae/LoRA to include in image.
-RUN if [ -z "$SKIP_DEFAULT_MODELS" ]; then wget -O models/checkpoints/sd_xl_base_1.0.safetensors https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors; fi
-RUN if [ -z "$SKIP_DEFAULT_MODELS" ]; then wget -O models/vae/sdxl_vae.safetensors https://huggingface.co/stabilityai/sdxl-vae/resolve/main/sdxl_vae.safetensors; fi
-RUN if [ -z "$SKIP_DEFAULT_MODELS" ]; then wget -O models/vae/sdxl-vae-fp16-fix.safetensors https://huggingface.co/madebyollin/sdxl-vae-fp16-fix/resolve/main/sdxl_vae.safetensors; fi
+
+# Download checkpoints include in image.
+RUN wget -O ICBINPXL_v7.safetensors https://huggingface.co/residentchiefnz/Testing/resolve/main/v7_rc1.safetensors
 
 # Install ComfyUI dependencies
 RUN pip3 install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121 \
-    && pip3 install --no-cache-dir xformers==0.0.21 \
-    && pip3 install -r requirements.txt
+    && pip3 install --no-cache-dir xformers \
+    && pip3 install --no-cache-dir -r requirements.txt
 
 # Install runpod
 RUN pip3 install runpod requests
@@ -41,11 +44,49 @@ RUN pip3 install runpod requests
 # Support for the network volume
 ADD src/extra_model_paths.yaml ./
 
-# Go back to the root
+# ADD IDM-VTON Custom Nodes
+WORKDIR /comfyui/custom_nodes
+RUN git clone https://github.com/TemryL/ComfyUI-IDM-VTON
+WORKDIR /comfyui/custom_nodes/ComfyUI-IDM-VTON/models
+RUN rm -f .gitkeep
+RUN git clone https://huggingface.co/yisol/IDM-VTON .
+
+# Add Segment Anything Custom Nodes
+WORKDIR /comfyui/custom_nodes
+RUN git clone https://github.com/storyicon/comfyui_segment_anything
+WORKDIR /comfyui/models/grounding-dino
+RUN wget https://huggingface.co/ShilongLiu/GroundingDINO/resolve/main/groundingdino_swinb_cogcoor.pth
+COPY /models/GroundingDINO_SwinB.cfg.py ./GroundingDINO_SwinB.cfg.py
+WORKDIR /comfyui/models/sams
+RUN wget https://huggingface.co/lkeab/hq-sam/resolve/main/sam_hq_vit_h.pth
+
+# Add controlnet preprocessor 
+WORKDIR /comfyui/custom_nodes
+RUN git clone https://github.com/Fannovel16/comfyui_controlnet_aux 
+WORKDIR /comfyui/custom_nodes/comfyui_controlnet_aux/LayerNorm/DensePose-TorchScript-with-hint-image
+RUN wget https://huggingface.co/LayerNorm/DensePose-TorchScript-with-hint-image/resolve/main/densepose_r50_fpn_dl.torchscript
+
+# Install requirements for custom nodes
+WORKDIR /comfyui/custom_nodes/ComfyUI-IDM-VTON
+RUN pip3 install --no-cache-dir -r requirements.txt
+WORKDIR /comfyui/custom_nodes/comfyui_segment_anything
+RUN pip3 install --no-cache-dir -r requirements.txt
+WORKDIR /comfyui/custom_nodes/comfyui_controlnet_aux
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+# Copy mannequin images to input folder
+COPY /assets/* /comfyui/input/
+
+# Return to root
 WORKDIR /
 
 # Add the start and the handler
 ADD src/start.sh src/rp_handler.py test_input.json ./
+
+# Convert line endings of the scripts
+RUN dos2unix /start.sh
+
+# Make the script executable
 RUN chmod +x /start.sh
 
 # Start the container
