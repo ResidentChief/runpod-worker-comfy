@@ -31,7 +31,9 @@ WORKDIR /comfyui
 ARG SKIP_DEFAULT_MODELS
 
 # Download checkpoints include in image.
+WORKDIR /comfyui/models/checkpoints
 RUN wget -O ICBINPXL_v7.safetensors https://huggingface.co/residentchiefnz/Testing/resolve/main/v7_rc1.safetensors
+WORKDIR /comfyui
 
 # Install ComfyUI dependencies
 RUN pip3 install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121 \
@@ -66,12 +68,20 @@ RUN git clone https://github.com/Fannovel16/comfyui_controlnet_aux
 WORKDIR /comfyui/custom_nodes/comfyui_controlnet_aux/LayerNorm/DensePose-TorchScript-with-hint-image
 RUN wget https://huggingface.co/LayerNorm/DensePose-TorchScript-with-hint-image/resolve/main/densepose_r50_fpn_dl.torchscript
 
+# Add Rembg
+WORKDIR /comfyui/custom_nodes
+RUN git clone https://github.com/Jcd1230/rembg-comfyui-node
+WORKDIR /root/.u2net/
+RUN wget https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2net.onnx
+
 # Install requirements for custom nodes
 WORKDIR /comfyui/custom_nodes/ComfyUI-IDM-VTON
 RUN pip3 install --no-cache-dir -r requirements.txt
 WORKDIR /comfyui/custom_nodes/comfyui_segment_anything
 RUN pip3 install --no-cache-dir -r requirements.txt
 WORKDIR /comfyui/custom_nodes/comfyui_controlnet_aux
+RUN pip3 install --no-cache-dir -r requirements.txt
+WORKDIR /comfyui/custom_nodes/rembg-comfyui-node
 RUN pip3 install --no-cache-dir -r requirements.txt
 
 # Copy mannequin images to input folder

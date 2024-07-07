@@ -2,577 +2,150 @@
     "input": {
       "workflow": {
         "1": {
-          "inputs": {
-            "model_name": "sam_hq_vit_h (2.57GB)"
-          },
-          "class_type": "SAMModelLoader (segment anything)",
-          "_meta": {
-            "title": "SAMModelLoader (segment anything)"
-          }
-        },
-        "2": {
-          "inputs": {
-            "model_name": "GroundingDINO_SwinB (938MB)"
-          },
-          "class_type": "GroundingDinoModelLoader (segment anything)",
-          "_meta": {
-            "title": "GroundingDinoModelLoader (segment anything)"
-          }
-        },
-        "3": {
-          "inputs": {
-            "prompt": "t-shirt",
-            "threshold": 0.5,
-            "sam_model": [
-              "1",
-              0
-            ],
-            "grounding_dino_model": [
-              "2",
-              0
-            ],
-            "image": [
-              "4",
-              0
-            ]
-          },
-          "class_type": "GroundingDinoSAMSegment (segment anything)",
-          "_meta": {
-            "title": "GroundingDinoSAMSegment (segment anything)"
-          }
-        },
-        "4": {
-          "inputs": {
-            "image": "full_front_tshirt_1.png",
-            "upload": "image"
-          },
-          "class_type": "LoadImage",
-          "_meta": {
+    "inputs": {
+      "model_name": "sam_hq_vit_h (2.57GB)"
+    },
+    "class_type": "SAMModelLoader (segment anything)",
+    "_meta": {
+      "title": "SAMModelLoader (segment anything)"
+    }
+  },
+  "2": {
+    "inputs": {
+      "model_name": "GroundingDINO_SwinB (938MB)"
+    },
+    "class_type": "GroundingDinoModelLoader (segment anything)",
+    "_meta": {
+      "title": "GroundingDinoModelLoader (segment anything)"
+    }
+  },
+  "3": {
+    "inputs": {
+      "prompt": "t-shirt",
+      "threshold": 0.5,
+      "sam_model": [
+        "1",
+        0
+      ],
+      "grounding_dino_model": [
+        "2",
+        0
+      ],
+      "image": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "GroundingDinoSAMSegment (segment anything)",
+    "_meta": {
+      "title": "GroundingDinoSAMSegment (segment anything)"
+    }
+  },
+  "4": {
+    "inputs": {
+      "image": "full_front_tshirt_1.png",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
             "title": "Full Front T-shirt"
-          }
-        },
-        "5": {
-          "inputs": {
-            "model": "densepose_r50_fpn_dl.torchscript",
-            "cmap": "Parula (CivitAI)",
-            "resolution": 832,
-            "image": [
-              "4",
-              0
-            ]
-          },
-          "class_type": "DensePosePreprocessor",
-          "_meta": {
-            "title": "DensePose Estimator"
-          }
-        },
-        "6": {
-          "inputs": {
-            "image": "input_tshirt_50.webp",
-            "upload": "image"
-          },
-          "class_type": "LoadImage",
-          "_meta": {
+    }
+  },
+  "5": {
+    "inputs": {
+      "model": "densepose_r50_fpn_dl.torchscript",
+      "cmap": "Parula (CivitAI)",
+      "resolution": 832,
+      "image": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "DensePosePreprocessor",
+    "_meta": {
+      "title": "DensePose Estimator"
+    }
+  },
+  "6": {
+    "inputs": {
+      "image": "input_tshirt_50.webp",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
             "title": "Clothing To Add"
-          }
-        },
-        "9": {
-          "inputs": {
-            "mask": [
-              "3",
-              1
-            ]
-          },
-          "class_type": "MaskToImage",
-          "_meta": {
-            "title": "Convert Mask to Image"
-          }
-        },
-        "10": {
-          "inputs": {
-            "images": [
-              "13",
-              0
-            ]
-          },
-          "class_type": "PreviewImage",
-          "_meta": {
-            "title": "Preview Image"
-          }
-        },
-        "13": {
-          "inputs": {
-            "garment_description": "model is wearing a tee-shirt",
-            "negative_prompt": "nsfw, naked, nudity, worst quality, low quality, poor quality, normal quality, depth of field, jpeg artefacts, jpeg, compression artefacts, chromatic aberration, diffusion, diffraction, distortion, noise, gaussian, blurry, cropped",
-            "width": 832,
-            "height": 1216,
-            "num_inference_steps": 30,
-            "guidance_scale": 2,
-            "strength": 1,
-            "seed": 356550213727864,
-            "pipeline": [
-              "15",
-              0
-            ],
-            "human_img": [
-              "4",
-              0
-            ],
-            "pose_img": [
-              "5",
-              0
-            ],
-            "mask_img": [
-              "9",
-              0
-            ],
-            "garment_img": [
-              "6",
-              0
-            ]
-          },
-          "class_type": "IDM-VTON",
-          "_meta": {
-            "title": "Run IDM-VTON Inference"
-          }
-        },
-        "15": {
-          "inputs": {
-            "weight_dtype": "float16"
-          },
-          "class_type": "PipelineLoader",
-          "_meta": {
-            "title": "Load IDM-VTON Pipeline"
-          }
-        },
-        "16": {
-          "inputs": {
-            "image": "half_back_tshirt_1.png",
-            "upload": "image"
-          },
-          "class_type": "LoadImage",
-          "_meta": {
-            "title": "Half Back T-shirt"
-          }
-        },
-        "17": {
-          "inputs": {
-            "model": "densepose_r50_fpn_dl.torchscript",
-            "cmap": "Parula (CivitAI)",
-            "resolution": 832,
-            "image": [
-              "16",
-              0
-            ]
-          },
-          "class_type": "DensePosePreprocessor",
-          "_meta": {
-            "title": "DensePose Estimator"
-          }
-        },
-        "18": {
-          "inputs": {
-            "prompt": "t-shirt",
-            "threshold": 0.5,
-            "sam_model": [
-              "1",
-              0
-            ],
-            "grounding_dino_model": [
-              "2",
-              0
-            ],
-            "image": [
-              "16",
-              0
-            ]
-          },
-          "class_type": "GroundingDinoSAMSegment (segment anything)",
-          "_meta": {
-            "title": "GroundingDinoSAMSegment (segment anything)"
-          }
-        },
-        "19": {
-          "inputs": {
-            "mask": [
-              "18",
-              1
-            ]
-          },
-          "class_type": "MaskToImage",
-          "_meta": {
-            "title": "Convert Mask to Image"
-          }
-        },
-        "20": {
-          "inputs": {
-            "garment_description": "model is wearing a tee-shirt",
-            "negative_prompt": "nsfw, naked, nudity, worst quality, low quality, poor quality, normal quality, depth of field, jpeg artefacts, jpeg, compression artefacts, chromatic aberration, diffusion, diffraction, distortion, noise, gaussian, blurry, cropped",
-            "width": 832,
-            "height": 1216,
-            "num_inference_steps": 30,
-            "guidance_scale": 2,
-            "strength": 1,
-            "seed": 783856488820303,
-            "pipeline": [
-              "15",
-              0
-            ],
-            "human_img": [
-              "16",
-              0
-            ],
-            "pose_img": [
-              "17",
-              0
-            ],
-            "mask_img": [
-              "19",
-              0
-            ],
-            "garment_img": [
-              "6",
-              0
-            ]
-          },
-          "class_type": "IDM-VTON",
-          "_meta": {
-            "title": "Run IDM-VTON Inference"
-          }
-        },
-        "21": {
-          "inputs": {
-            "images": [
-              "20",
-              0
-            ]
-          },
-          "class_type": "PreviewImage",
-          "_meta": {
-            "title": "Preview Image"
-          }
-        },
-        "22": {
-          "inputs": {
-            "image": "half_back_hoodie_1.png",
-            "upload": "image"
-          },
-          "class_type": "LoadImage",
-          "_meta": {
-            "title": "Half Back Hoodie"
-          }
-        },
-        "23": {
-          "inputs": {
-            "prompt": "hooded sweatshirt",
-            "threshold": 0.5,
-            "sam_model": [
-              "1",
-              0
-            ],
-            "grounding_dino_model": [
-              "2",
-              0
-            ],
-            "image": [
-              "22",
-              0
-            ]
-          },
-          "class_type": "GroundingDinoSAMSegment (segment anything)",
-          "_meta": {
-            "title": "GroundingDinoSAMSegment (segment anything)"
-          }
-        },
-        "24": {
-          "inputs": {
-            "model": "densepose_r50_fpn_dl.torchscript",
-            "cmap": "Parula (CivitAI)",
-            "resolution": 832,
-            "image": [
-              "22",
-              0
-            ]
-          },
-          "class_type": "DensePosePreprocessor",
-          "_meta": {
-            "title": "DensePose Estimator"
-          }
-        },
-        "25": {
-          "inputs": {
-            "mask": [
-              "23",
-              1
-            ]
-          },
-          "class_type": "MaskToImage",
-          "_meta": {
-            "title": "Convert Mask to Image"
-          }
-        },
-        "26": {
-          "inputs": {
-            "garment_description": "model is wearing a hooded sweatshirt",
-            "negative_prompt": "nsfw, naked, nudity, worst quality, low quality, poor quality, normal quality, depth of field, jpeg artefacts, jpeg, compression artefacts, chromatic aberration, diffusion, diffraction, distortion, noise, gaussian, blurry, cropped",
-            "width": 832,
-            "height": 1216,
-            "num_inference_steps": 30,
-            "guidance_scale": 2,
-            "strength": 1,
-            "seed": 1076685633955171,
-            "pipeline": [
-              "15",
-              0
-            ],
-            "human_img": [
-              "22",
-              0
-            ],
-            "pose_img": [
-              "24",
-              0
-            ],
-            "mask_img": [
-              "25",
-              0
-            ],
-            "garment_img": [
-              "6",
-              0
-            ]
-          },
-          "class_type": "IDM-VTON",
-          "_meta": {
-            "title": "Run IDM-VTON Inference"
-          }
-        },
-        "27": {
-          "inputs": {
-            "images": [
-              "26",
-              0
-            ]
-          },
-          "class_type": "PreviewImage",
-          "_meta": {
-            "title": "Preview Image"
-          }
-        },
-        "28": {
-          "inputs": {
-            "image": "half_front_hoodie_1.png",
-            "upload": "image"
-          },
-          "class_type": "LoadImage",
-          "_meta": {
-            "title": "Full Front Hoodie"
-          }
-        },
-        "29": {
-          "inputs": {
-            "prompt": "hooded sweatshirt",
-            "threshold": 0.5,
-            "sam_model": [
-              "1",
-              0
-            ],
-            "grounding_dino_model": [
-              "2",
-              0
-            ],
-            "image": [
-              "28",
-              0
-            ]
-          },
-          "class_type": "GroundingDinoSAMSegment (segment anything)",
-          "_meta": {
-            "title": "GroundingDinoSAMSegment (segment anything)"
-          }
-        },
-        "30": {
-          "inputs": {
-            "model": "densepose_r50_fpn_dl.torchscript",
-            "cmap": "Parula (CivitAI)",
-            "resolution": 832,
-            "image": [
-              "28",
-              0
-            ]
-          },
-          "class_type": "DensePosePreprocessor",
-          "_meta": {
-            "title": "DensePose Estimator"
-          }
-        },
-        "31": {
-          "inputs": {
-            "mask": [
-              "29",
-              1
-            ]
-          },
-          "class_type": "MaskToImage",
-          "_meta": {
-            "title": "Convert Mask to Image"
-          }
-        },
-        "32": {
-          "inputs": {
-            "garment_description": "model is wearing a hooded sweatshirt",
-            "negative_prompt": "nsfw, naked, nudity, worst quality, low quality, poor quality, normal quality, depth of field, jpeg artefacts, jpeg, compression artefacts, chromatic aberration, diffusion, diffraction, distortion, noise, gaussian, blurry, cropped",
-            "width": 832,
-            "height": 1216,
-            "num_inference_steps": 30,
-            "guidance_scale": 2,
-            "strength": 1,
-            "seed": 874850933125072,
-            "pipeline": [
-              "15",
-              0
-            ],
-            "human_img": [
-              "28",
-              0
-            ],
-            "pose_img": [
-              "30",
-              0
-            ],
-            "mask_img": [
-              "31",
-              0
-            ],
-            "garment_img": [
-              "6",
-              0
-            ]
-          },
-          "class_type": "IDM-VTON",
-          "_meta": {
-            "title": "Run IDM-VTON Inference"
-          }
-        },
-        "33": {
-          "inputs": {
-            "images": [
-              "32",
-              0
-            ]
-          },
-          "class_type": "PreviewImage",
-          "_meta": {
-            "title": "Preview Image"
-          }
-        },
-        "34": {
-          "inputs": {
-            "image": "coffee_mug.jpg",
-            "upload": "image"
-          },
-          "class_type": "LoadImage",
-          "_meta": {
-            "title": "Full Front Hoodie"
-          }
-        },
-        "35": {
-          "inputs": {
-            "model": "densepose_r50_fpn_dl.torchscript",
-            "cmap": "Parula (CivitAI)",
-            "resolution": 832,
-            "image": [
-              "34",
-              0
-            ]
-          },
-          "class_type": "DensePosePreprocessor",
-          "_meta": {
-            "title": "DensePose Estimator"
-          }
-        },
-        "36": {
-          "inputs": {
-            "prompt": "coffee cup",
-            "threshold": 0.5,
-            "sam_model": [
-              "1",
-              0
-            ],
-            "grounding_dino_model": [
-              "2",
-              0
-            ],
-            "image": [
-              "34",
-              0
-            ]
-          },
-          "class_type": "GroundingDinoSAMSegment (segment anything)",
-          "_meta": {
-            "title": "GroundingDinoSAMSegment (segment anything)"
-          }
-        },
-        "37": {
-          "inputs": {
-            "mask": [
-              "36",
-              1
-            ]
-          },
-          "class_type": "MaskToImage",
-          "_meta": {
-            "title": "Convert Mask to Image"
-          }
-        },
-        "38": {
-          "inputs": {
-            "garment_description": "coffee cup",
-            "negative_prompt": "nsfw, naked, nudity, worst quality, low quality, poor quality, normal quality, depth of field, jpeg artefacts, jpeg, compression artefacts, chromatic aberration, diffusion, diffraction, distortion, noise, gaussian, blurry, cropped",
-            "width": 1216,
-            "height": 832,
-            "num_inference_steps": 30,
-            "guidance_scale": 2,
-            "strength": 1,
-            "seed": 864349412727841,
-            "pipeline": [
-              "15",
-              0
-            ],
-            "human_img": [
-              "34",
-              0
-            ],
-            "pose_img": [
-              "35",
-              0
-            ],
-            "mask_img": [
-              "37",
-              0
-            ],
-            "garment_img": [
-              "6",
-              0
-            ]
-          },
-          "class_type": "IDM-VTON",
-          "_meta": {
-            "title": "Run IDM-VTON Inference"
-          }
-        },
-        "39": {
-          "inputs": {
-            "images": [
-              "38",
-              0
-            ]
-          },
-          "class_type": "PreviewImage",
-          "_meta": {
-            "title": "Preview Image"
-          }
-        }
+    }
+  },
+  "9": {
+    "inputs": {
+      "mask": [
+        "3",
+        1
+      ]
+    },
+    "class_type": "MaskToImage",
+    "_meta": {
+      "title": "Convert Mask to Image"
+    }
+  },
+  "13": {
+    "inputs": {
+      "garment_description": "model is wearing a tee-shirt",
+      "negative_prompt": "nsfw, naked, nudity, worst quality, low quality, poor quality, normal quality, depth of field, jpeg artefacts, jpeg, compression artefacts, chromatic aberration, diffusion, diffraction, distortion, noise, gaussian, blurry, cropped",
+      "width": 832,
+      "height": 1216,
+      "num_inference_steps": 30,
+      "guidance_scale": 2,
+      "strength": 1,
+      "seed": 615869150627749,
+      "pipeline": [
+        "15",
+        0
+      ],
+      "human_img": [
+        "4",
+        0
+      ],
+      "pose_img": [
+        "5",
+        0
+      ],
+      "mask_img": [
+        "9",
+        0
+      ],
+      "garment_img": [
+        "6",
+        0
+      ]
+    },
+    "class_type": "IDM-VTON",
+    "_meta": {
+      "title": "Run IDM-VTON Inference"
+    }
+  },
+  "15": {
+    "inputs": {
+      "weight_dtype": "float16"
+    },
+    "class_type": "PipelineLoader",
+    "_meta": {
+      "title": "Load IDM-VTON Pipeline"
+    }
+  },
+  "16": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "images": [
+        "13",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  }
       },
     "images": [
       {
