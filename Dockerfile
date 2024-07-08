@@ -33,6 +33,7 @@ ARG SKIP_DEFAULT_MODELS
 # Download checkpoints include in image.
 WORKDIR /comfyui/models/checkpoints
 RUN wget -O ICBINPXL_v7.safetensors https://huggingface.co/residentchiefnz/Testing/resolve/main/v7_rc1.safetensors
+RUN wget -O Fustercluck.safetensors https://huggingface.co/residentchiefnz/Testing/resolve/main/F2_step2.safetensors
 WORKDIR /comfyui
 
 # Install ComfyUI dependencies
@@ -73,6 +74,22 @@ WORKDIR /comfyui/custom_nodes
 RUN git clone https://github.com/Jcd1230/rembg-comfyui-node
 WORKDIR /root/.u2net/
 RUN wget https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2net.onnx
+
+# Add InstantID
+WORKDIR /comfyui/custom_nodes
+RUN git clone https://github.com/nosiu/comfyui-instantId-faceswap
+WORKDIR /comfyui/models/insightface/models/antelopev2
+RUN wget https://huggingface.co/MonsterMMORPG/tools/resolve/main/1k3d68.onnx
+RUN wget https://huggingface.co/MonsterMMORPG/tools/resolve/main/2d106det.onnx
+RUN wget https://huggingface.co/MonsterMMORPG/tools/resolve/main/antelopev2.zip
+RUN wget https://huggingface.co/MonsterMMORPG/tools/resolve/main/genderage.onnx
+RUN wget https://huggingface.co/MonsterMMORPG/tools/resolve/main/glintr100.onnx
+RUN wget https://huggingface.co/MonsterMMORPG/tools/resolve/main/scrfd_10g_bnkps.onnx
+WORKDIR /comfyui/models/ipadapter
+RUN wget https://huggingface.co/InstantX/InstantID/resolve/main/ip-adapter.bin
+WORKDIR /comfyui/models/controlnet/ControlNetModel
+RUN wget https://huggingface.co/InstantX/InstantID/resolve/main/ControlNetModel/config.json
+RUN wget https://huggingface.co/InstantX/InstantID/resolve/main/ControlNetModel/diffusion_pytorch_model.safetensors
 
 # Install requirements for custom nodes
 WORKDIR /comfyui/custom_nodes/ComfyUI-IDM-VTON
