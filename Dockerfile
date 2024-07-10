@@ -100,6 +100,7 @@ WORKDIR /comfyui/custom_nodes/comfyui_controlnet_aux
 RUN pip3 install --no-cache-dir -r requirements.txt
 WORKDIR /comfyui/custom_nodes/rembg-comfyui-node
 RUN pip3 install --no-cache-dir -r requirements.txt
+RUN pip3 install --no-cache-dir insightface
 
 # Copy mannequin images to input folder
 COPY /assets/* /comfyui/input/
