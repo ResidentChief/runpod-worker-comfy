@@ -75,6 +75,10 @@ RUN git clone https://github.com/Jcd1230/rembg-comfyui-node
 WORKDIR /root/.u2net/
 RUN wget https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2net.onnx
 
+# Add LayerStyle
+WORKDIR /comfyui/custom_nodes
+RUN git clone https://github.com/chflame163/ComfyUI_LayerStyle
+
 # Add InstantID
 WORKDIR /comfyui/custom_nodes
 RUN git clone https://github.com/nosiu/comfyui-instantId-faceswap
@@ -99,6 +103,8 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 WORKDIR /comfyui/custom_nodes/comfyui_controlnet_aux
 RUN pip3 install --no-cache-dir -r requirements.txt
 WORKDIR /comfyui/custom_nodes/rembg-comfyui-node
+RUN pip3 install --no-cache-dir -r requirements.txt
+WORKDIR /comfyui/custom_nodes/ComfyUI_LayerStyle
 RUN pip3 install --no-cache-dir -r requirements.txt
 RUN pip3 install --no-cache-dir insightface
 
