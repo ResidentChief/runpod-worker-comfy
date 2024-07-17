@@ -78,7 +78,8 @@ RUN wget https://huggingface.co/LayerNorm/DensePose-TorchScript-with-hint-image/
 # Add LayerStyle
 WORKDIR /comfyui/custom_nodes
 RUN git clone https://github.com/chflame163/ComfyUI_LayerStyle
-RUN wget -O /comfyui/custom_nodes/ComfyUI_LayerStyle/RMBG-1.4/model.pth https://huggingface.co/briaai/RMBG-1.4/resolve/main/model.pth
+WORKDIR /comfyui/custom_nodes/ComfyUI_LayerStyle/RMBG-1.4
+RUN wget https://huggingface.co/briaai/RMBG-1.4/resolve/main/model.pth
 
 # Add InstantID
 WORKDIR /comfyui/custom_nodes
