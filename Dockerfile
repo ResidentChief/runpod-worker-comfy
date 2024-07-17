@@ -33,7 +33,7 @@ ARG SKIP_DEFAULT_MODELS
 # Download checkpoints include in image.
 WORKDIR /comfyui/models/checkpoints
 RUN wget -O ICBINPXL_v7.safetensors https://huggingface.co/residentchiefnz/Testing/resolve/main/v7_rc1.safetensors
-RUN wget -O Fustercluck.safetensors https://huggingface.co/residentchiefnz/Testing/resolve/main/F2_step2.safetensors
+# RUN wget -O Fustercluck.safetensors https://huggingface.co/residentchiefnz/Testing/resolve/main/F2_step2.safetensors
 WORKDIR /comfyui
 
 # Install ComfyUI dependencies
@@ -70,14 +70,15 @@ WORKDIR /comfyui/custom_nodes/comfyui_controlnet_aux/LayerNorm/DensePose-TorchSc
 RUN wget https://huggingface.co/LayerNorm/DensePose-TorchScript-with-hint-image/resolve/main/densepose_r50_fpn_dl.torchscript
 
 # Add Rembg
-WORKDIR /comfyui/custom_nodes
-RUN git clone https://github.com/Jcd1230/rembg-comfyui-node
-WORKDIR /root/.u2net/
-RUN wget https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2net.onnx
+# WORKDIR /comfyui/custom_nodes
+# RUN git clone https://github.com/Jcd1230/rembg-comfyui-node
+# WORKDIR /root/.u2net/
+# RUN wget https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2net.onnx
 
 # Add LayerStyle
 WORKDIR /comfyui/custom_nodes
 RUN git clone https://github.com/chflame163/ComfyUI_LayerStyle
+RUN wget -O /comfyui/custom_nodes/ComfyUI_LayerStyle/RMBG-1.4/model.pth https://huggingface.co/briaai/RMBG-1.4/resolve/main/model.pth
 
 # Add InstantID
 WORKDIR /comfyui/custom_nodes
