@@ -1,5 +1,5 @@
 # Use Nvidia CUDA base image
-FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04 as base
+FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04 AS base
 
 # Prevents prompts from packages asking for user input during installation
 ENV DEBIAN_FRONTEND=noninteractive
@@ -33,7 +33,6 @@ ARG SKIP_DEFAULT_MODELS
 # Download checkpoints include in image.
 WORKDIR /comfyui/models/checkpoints
 RUN wget -O ICBINPXL_v7.safetensors https://huggingface.co/residentchiefnz/Testing/resolve/main/v7_rc1.safetensors
-# RUN wget -O Fustercluck.safetensors https://huggingface.co/residentchiefnz/Testing/resolve/main/F2_step2.safetensors
 WORKDIR /comfyui
 
 # Install ComfyUI dependencies
@@ -69,12 +68,6 @@ RUN git clone https://github.com/Fannovel16/comfyui_controlnet_aux
 WORKDIR /comfyui/custom_nodes/comfyui_controlnet_aux/LayerNorm/DensePose-TorchScript-with-hint-image
 RUN wget https://huggingface.co/LayerNorm/DensePose-TorchScript-with-hint-image/resolve/main/densepose_r50_fpn_dl.torchscript
 
-# Add Rembg
-# WORKDIR /comfyui/custom_nodes
-# RUN git clone https://github.com/Jcd1230/rembg-comfyui-node
-# WORKDIR /root/.u2net/
-# RUN wget https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2net.onnx
-
 # Add LayerStyle
 WORKDIR /comfyui/custom_nodes
 RUN git clone https://github.com/chflame163/ComfyUI_LayerStyle
@@ -104,11 +97,9 @@ WORKDIR /comfyui/custom_nodes/comfyui_segment_anything
 RUN pip3 install --no-cache-dir -r requirements.txt
 WORKDIR /comfyui/custom_nodes/comfyui_controlnet_aux
 RUN pip3 install --no-cache-dir -r requirements.txt
-WORKDIR /comfyui/custom_nodes/rembg-comfyui-node
-RUN pip3 install --no-cache-dir -r requirements.txt
 WORKDIR /comfyui/custom_nodes/ComfyUI_LayerStyle
 RUN pip3 install --no-cache-dir -r requirements.txt
-RUN pip3 install --no-cache-dir insightface
+RUN pip3 install --no-cache-dir insightface onnxruntime onnxruntime-gpu
 
 # Copy mannequin images to input folder
 COPY /assets/* /comfyui/input/
@@ -126,4 +117,4 @@ RUN dos2unix /start.sh
 RUN chmod +x /start.sh
 
 # Start the container
-CMD /start.sh
+CMD ["/start.sh"]
